@@ -38,7 +38,7 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
             json.writeStringField("pos", inv.pos);
             json.writeStringField("rchrg", inv.reverseCharge ? "Yes" : "No");
             json.writeStringField("pro_ass", inv.provisionalAssessment ? "Y" : "N");
-            if (!b2B.isOriginal) {
+            if (b2B.isAmendment) {
                 //b2ba b2cla b2csa etc ...
                 json.writeStringField("onum", inv.originalInvNum);
                 json.writeStringField("odt", gstFmt.format(inv.originalInvDt));

@@ -25,7 +25,7 @@ public class B2CSSerializer extends BaseSerializer<B2CS> {
                 json.writeStringField("chksum", li.checkSum);
 
                 json.writeStringField("state_cd", li.stateCode);
-                if (!b2CS.isOriginal) {
+                if (b2CS.isAmendment) {
                     //b2csa amendment
                     json.writeStringField("osupst_cd", li.originalStateCode);
                     json.writeStringField("ohsn_sc", li.originalGoodsOrServiceCode);
