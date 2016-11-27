@@ -10,8 +10,4 @@ public class B2B extends BaseData {
     //for b2b is counter party , for b2ba is receiving Party
     public String partyGSTIN;
 
-    public List<Invoice> invoices;
-
-
-
 }

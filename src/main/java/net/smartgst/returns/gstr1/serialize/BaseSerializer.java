@@ -29,8 +29,8 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
     private void writeInvoice(T b2B, JsonGenerator json, Invoice inv) {
         try {
             json.writeStartObject();
-
-            json.writeStringField("flag", inv.taxPayerAction.getValue());
+            if (inv.taxPayerAction != null)
+                json.writeStringField("flag", inv.taxPayerAction.getValue());
             json.writeStringField("chksum", inv.checkSum);
             json.writeStringField("inum", inv.supplierInvNum);
             json.writeStringField("idt", gstFmt.format(inv.supplierInvDt));
@@ -51,6 +51,7 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
             json.writeEndObject();
         } catch (Exception e) {
             //log
+            e.printStackTrace();
         }
     }
 
@@ -68,7 +69,8 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
         try {
             json.writeStartObject();
             json.writeNumberField("num", li.slNo);
-            json.writeStringField("status", li.action.getValue());
+            if (li.action != null)
+                json.writeStringField("status", li.action.getValue());
             json.writeStringField("ty", li.goodsOrService.getValue());
             json.writeStringField("hsn_sc", li.goodsOrServiceCode);
             json.writeNumberField("txval", li.taxableValue);
@@ -85,6 +87,7 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
             json.writeEndObject();
         } catch (Exception e) {
             //log
+            e.printStackTrace();
         }
     }
 
