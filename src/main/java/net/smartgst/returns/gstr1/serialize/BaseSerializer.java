@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
-    private final SimpleDateFormat gstFmt = new SimpleDateFormat("dd-MM-yyyy");
+    final SimpleDateFormat gstFmt = new SimpleDateFormat("dd-MM-yyyy");
+    final SimpleDateFormat fpFormat = new SimpleDateFormat("MMyyyy");
+
 
     void writeInvoices(T b2B, JsonGenerator json) throws IOException {
         //Start Invoice Details
@@ -44,7 +46,6 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
 
 
             writeLineItems(b2B, json, inv);
-
 
 
             json.writeEndObject();

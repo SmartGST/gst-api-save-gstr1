@@ -24,6 +24,4 @@ public class InvLineItem {
     
     public double sgstAmt;
 
-    public String stateCode;
-
 }
