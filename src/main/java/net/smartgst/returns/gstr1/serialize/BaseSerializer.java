@@ -1,12 +1,10 @@
-package net.smartgst.returns.serialize;
+package net.smartgst.returns.gstr1.serialize;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import net.smartgst.returns.data.B2B;
-import net.smartgst.returns.data.b2b.B2BInv;
-import net.smartgst.returns.data.b2b.B2BInvItem;
+import net.smartgst.returns.gstr1.data.BaseData;
+import net.smartgst.returns.gstr1.data.InvLineItem;
+import net.smartgst.returns.gstr1.data.Invoice;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -14,20 +12,10 @@ import java.text.SimpleDateFormat;
 /**
  * Created by gowthaman on 27/11/16.
  */
-public class B2BSerializer extends JsonSerializer<B2B> {
+abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
     private final SimpleDateFormat gstFmt = new SimpleDateFormat("dd-MM-yyyy");
 
-    @Override
-    public void serialize(B2B b2B, final JsonGenerator json, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
-        json.writeStartObject();
-
-        json.writeStringField("ctin", b2B.partyGSTIN);
-        writeInvoices(b2B, json);
-
-        json.writeEndObject();
-    }
-
-    private void writeInvoices(B2B b2B, JsonGenerator json) throws IOException {
+    void writeInvoices(T b2B, JsonGenerator json) throws IOException {
         //Start Invoice Details
         json.writeFieldName("inv");
         json.writeStartArray();
@@ -39,7 +27,7 @@ public class B2BSerializer extends JsonSerializer<B2B> {
         //end Invoice Details
     }
 
-    private void writeInvoice(B2B b2B, JsonGenerator json, B2BInv inv) {
+    private void writeInvoice(T b2B, JsonGenerator json, Invoice inv) {
         try {
             json.writeStartObject();
 
@@ -52,7 +40,7 @@ public class B2BSerializer extends JsonSerializer<B2B> {
             json.writeStringField("rchrg", inv.reverseCharge ? "Yes" : "No");
             json.writeStringField("pro_ass", inv.provisionalAssessment ? "Y" : "N");
             if (!b2B.isOriginal) {
-                //b2ba
+                //b2ba b2cla b2csa etc ...
                 json.writeStringField("onum", inv.originalInvNum);
                 json.writeStringField("odt", gstFmt.format(inv.originalInvDt));
             }
@@ -69,7 +57,7 @@ public class B2BSerializer extends JsonSerializer<B2B> {
         }
     }
 
-    private void writeLineItems(B2B b2B, JsonGenerator json, B2BInv inv) throws IOException {
+    private void writeLineItems(T b2B, JsonGenerator json, Invoice inv) throws IOException {
         //Start Line Items
         json.writeFieldName("itms");
         json.writeStartArray();
@@ -78,17 +66,10 @@ public class B2BSerializer extends JsonSerializer<B2B> {
         json.writeEndArray();
     }
 
-    private void writeLineItem(B2B b2B, JsonGenerator json, B2BInvItem li) {
+    private void writeLineItem(T b2B, JsonGenerator json, InvLineItem li) {
         try {
             json.writeStartObject();
-            if (b2B.isOriginal) {
-                //b2b
-                json.writeNumberField("num", li.slNo);
-            } else {
-                //b2ba
-                json.writeNumberField("line_num", li.slNo);
-            }
-
+            json.writeNumberField("num", li.slNo);
             json.writeStringField("status", li.action.getValue());
             json.writeStringField("ty", li.goodsOrService.getValue());
             json.writeStringField("hsn_sc", li.goodsOrServiceCode);
@@ -104,8 +85,9 @@ public class B2BSerializer extends JsonSerializer<B2B> {
             json.writeNumberField("samt", li.sgstAmt);
 
             json.writeEndObject();
-        }catch (Exception e){
+        } catch (Exception e) {
             //log
         }
     }
+
 }

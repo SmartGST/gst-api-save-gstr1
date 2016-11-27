@@ -1,12 +1,9 @@
-package net.smartgst.returns.data.b2b;
-
-import net.smartgst.returns.data.GoodsService;
-import net.smartgst.returns.data.TaxPayerAction;
+package net.smartgst.returns.gstr1.data;
 
 /**
  * Created by gowthaman on 27/11/16.
  */
-public class B2BInvItem {
+public class InvLineItem {
     public int slNo;
 
     public TaxPayerAction action;
@@ -28,5 +25,7 @@ public class B2BInvItem {
     public double sgstRate;
     
     public double sgstAmt;
+
+    public String stateCode;
 
 }

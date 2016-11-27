@@ -1,4 +1,4 @@
-package net.smartgst.returns.serialize;
+package net.smartgst.returns.gstr1.serialize;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;

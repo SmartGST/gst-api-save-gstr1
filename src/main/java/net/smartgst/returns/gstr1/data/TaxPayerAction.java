@@ -1,4 +1,4 @@
-package net.smartgst.returns.data;
+package net.smartgst.returns.gstr1.data;
 
 /**
  * Created by gowthaman on 27/11/16.

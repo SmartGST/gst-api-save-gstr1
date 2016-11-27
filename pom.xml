@@ -3,8 +3,8 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>net.smartgst</artifactId>
-    <groupId>net.smartgst.returns</groupId>
+    <artifactId>net.smartgst.returns.gstr1</artifactId>
+    <groupId>net.smartgst</groupId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <url>https://www.smartgst.net</url>

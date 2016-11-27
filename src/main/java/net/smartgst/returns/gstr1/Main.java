@@ -1,4 +1,4 @@
-package net.smartgst.returns;
+package net.smartgst.returns.gstr1;
 
 import net.smartgst.auth.GSTAuth;
 

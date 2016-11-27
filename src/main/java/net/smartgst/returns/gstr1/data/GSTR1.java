@@ -1,15 +1,13 @@
-package net.smartgst.returns.data;
+package net.smartgst.returns.gstr1.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import net.smartgst.returns.serialize.FinancialPeriodSerialize;
+import net.smartgst.returns.gstr1.serialize.FinancialPeriodSerialize;
 
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by gowthaman on 27/11/16.
- */
+
 public class GSTR1 {
     @JsonProperty("gstin")
     public String gstin;

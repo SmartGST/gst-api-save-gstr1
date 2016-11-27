@@ -1,14 +1,13 @@
-package net.smartgst.returns.data.b2b;
+package net.smartgst.returns.gstr1.data;
 
-import net.smartgst.returns.data.TaxPayerAction;
+import net.smartgst.returns.gstr1.data.InvLineItem;
+import net.smartgst.returns.gstr1.data.TaxPayerAction;
 
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by gowthaman on 27/11/16.
- */
-public class B2BInv {
+
+public class Invoice {
     public TaxPayerAction taxPayerAction;
 
     public String checkSum;
@@ -28,5 +27,5 @@ public class B2BInv {
 
     public boolean provisionalAssessment;
 
-    public List<B2BInvItem> items;
+    public List<InvLineItem> items;
 }
