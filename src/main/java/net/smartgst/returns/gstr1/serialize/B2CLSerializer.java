@@ -8,9 +8,7 @@ import net.smartgst.returns.gstr1.data.B2CL;
 
 import java.io.IOException;
 
-/**
- * Created by gowthaman on 27/11/16.
- */
+
 public class B2CLSerializer extends BaseSerializer<B2CL> {
     @Override
     public void serialize(B2CL b2CL, JsonGenerator json, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {

@@ -1,8 +1,6 @@
 package net.smartgst.returns.gstr1.data;
 
-/**
- * Created by gowthaman on 27/11/16.
- */
+
 public class InvLineItem {
     public int slNo;
 

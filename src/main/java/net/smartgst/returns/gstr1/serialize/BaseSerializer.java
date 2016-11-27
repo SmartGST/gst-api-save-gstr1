@@ -9,9 +9,6 @@ import net.smartgst.returns.gstr1.data.Invoice;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-/**
- * Created by gowthaman on 27/11/16.
- */
 abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
     private final SimpleDateFormat gstFmt = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -48,7 +45,6 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
 
             writeLineItems(b2B, json, inv);
 
-            //End Line Items
 
 
             json.writeEndObject();
@@ -62,6 +58,7 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
         json.writeFieldName("itms");
         json.writeStartArray();
         inv.items.forEach(li -> writeLineItem(b2B, json, li));
+        //End Line Items
 
         json.writeEndArray();
     }

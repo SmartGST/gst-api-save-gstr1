@@ -1,8 +1,5 @@
 package net.smartgst.returns.gstr1.data;
 
-import net.smartgst.returns.gstr1.data.InvLineItem;
-import net.smartgst.returns.gstr1.data.TaxPayerAction;
-
 import java.util.Date;
 import java.util.List;
 
