@@ -23,4 +23,7 @@ public class GSTR1 {
 
     @JsonProperty("b2b")
     public List<B2B> b2b;
+
+    @JsonProperty("b2ba")
+    public List<B2B> b2ba;
 }
