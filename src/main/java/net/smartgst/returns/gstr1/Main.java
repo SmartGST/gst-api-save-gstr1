@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import net.smartgst.auth.AESEncryption;
 import net.smartgst.auth.GSTAuth;
 import net.smartgst.returns.gstr1.data.*;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -123,15 +124,24 @@ public class Main {
     private static final String APPLICATION_JSON = "application/json";
 
     private static boolean postGstr1(GSTR1 gstr1) throws Exception {
+        //actual payload
         String json = objectMapper.writeValueAsString(gstr1);
+        AESEncryption aesEncryption = gstAuth.getAesEncryption();
 
+        //convery payload to Base64
         byte[] jsonBase64 = Base64.getEncoder().encode(json.getBytes());
-        String encryptedPayload = gstAuth.getAesEncryption().encryptEK(jsonBase64, gstAuth.getAuthSEK());
+
+        //encrypt the Base64 data
+        String encryptedPayload = aesEncryption.encryptEK(jsonBase64, gstAuth.getAuthSEK());
 
 
+        //create hmac
         HMac hmac = new HMac(new SHA256Digest());
         byte[] resBuf = new byte[hmac.getMacSize()];
+
+        //init with the AuthSEK
         hmac.init(new KeyParameter(gstAuth.getAuthSEK()));
+        //add the json(Base64)
         hmac.update(jsonBase64, 0, jsonBase64.length);
         hmac.doFinal(resBuf, 0);
 
@@ -139,6 +149,8 @@ public class Main {
         JSONObject object = new JSONObject();
         object.put("action", "RETSAVE");
         object.put("data", encryptedPayload);
+
+        //send hmac in base64 string format
         object.put("hmac", new String(Base64.getEncoder().encode(resBuf)));
 
         System.out.println(object.toString());
@@ -158,6 +170,23 @@ public class Main {
 
         System.out.println(resp.getStatus());
         System.out.println(resp.getBody());
+
+        JSONObject gstrRespObj = resp.getBody().getObject();
+        String data = gstrRespObj.getString("data");
+        String rek = gstrRespObj.getString("rek");
+
+        //recover apiEncryptionKey from Response using our AuthSEK
+        byte[] apiEK = aesEncryption.decrypt(rek, gstAuth.getAuthSEK());
+
+        //using the apiEncryptionKey, recover the Json data (in base64 fmt)
+        String respJsoninBase64 = new String(aesEncryption.decrypt(data, apiEK));
+
+        //convert base64 to original json (in bytes)
+        byte[] respJsonInBytes = aesEncryption.decodeBase64StringTOByte(respJsoninBase64);
+
+        //convery original json in bytes to json string
+        String jsonData = new String(respJsonInBytes);
+        System.out.println(jsonData);
 
         return false;
     }
