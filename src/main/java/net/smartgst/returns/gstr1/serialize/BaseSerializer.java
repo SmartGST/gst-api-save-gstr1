@@ -31,17 +31,19 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
             json.writeStartObject();
             if (inv.taxPayerAction != null)
                 json.writeStringField("flag", inv.taxPayerAction.getValue());
+
             json.writeStringField("chksum", inv.checkSum);
+
             json.writeStringField("inum", inv.supplierInvNum);
             json.writeStringField("idt", gstFmt.format(inv.supplierInvDt));
             json.writeNumberField("val", inv.supplierInvVal);
             json.writeStringField("pos", inv.pos);
             json.writeStringField("rchrg", inv.reverseCharge ? "Yes" : "No");
-            json.writeStringField("pro_ass", inv.provisionalAssessment ? "Y" : "N");
+            json.writeStringField("prs", inv.provisionalAssessment ? "Y" : "N");
             if (b2B.isAmendment) {
                 //b2ba b2cla b2csa etc ...
-                json.writeStringField("onum", inv.originalInvNum);
-                json.writeStringField("odt", gstFmt.format(inv.originalInvDt));
+                json.writeStringField("od_num", inv.originalInvNum);
+                json.writeStringField("od_dt", gstFmt.format(inv.originalInvDt));
             }
 
 
@@ -71,6 +73,10 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
             json.writeNumberField("num", li.slNo);
             if (li.action != null)
                 json.writeStringField("status", li.action.getValue());
+
+            json.writeFieldName("itm_det");
+
+            json.writeStartObject();
             json.writeStringField("ty", li.goodsOrService.getValue());
             json.writeStringField("hsn_sc", li.goodsOrServiceCode);
             json.writeNumberField("txval", li.taxableValue);
@@ -83,6 +89,11 @@ abstract class BaseSerializer<T extends BaseData> extends JsonSerializer<T> {
 
             json.writeNumberField("srt", li.sgstRate);
             json.writeNumberField("samt", li.sgstAmt);
+
+            json.writeNumberField("csrt", li.csRate);
+            json.writeNumberField("csamt", li.csAmt);
+
+            json.writeEndObject();
 
             json.writeEndObject();
         } catch (Exception e) {

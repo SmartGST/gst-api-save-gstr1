@@ -24,4 +24,8 @@ public class InvLineItem {
     
     public double sgstAmt;
 
+    public double csRate;
+
+    public double csAmt;
+
 }
